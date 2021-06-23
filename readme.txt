@@ -29,6 +29,24 @@ Once signed up, simply login to your my.clerk.io backend, which will guide you t
 
 
 == Changelog ==
+
+= Fixes by Twanariens = 
+* Fix for retrieving the Product Short Description ($Excerpt)
+* Fix for using the Catalog Visibility of a product (this means Clerk will no longer show products that have there catalog visibility set to hide from search)
+* Fix for retrieving Product Attribute data 
+   - The product data would be retrieved without any whitespaces, meaning some descriptions were unreadable
+   - Changed the "exploded" functionality to cut the string in the right place (the product data is imploded with `, ` but exploded with `,`. So there were additional whitespaces in the product attribute)
+   - The product data would always be retrieved as "exloded", meaning all product attributes were imported as an array (even with single values)
+   - 
+* Fix for certain WooCommerce calls (old functions are being called with errors in the debug log, changed them to the new function calls)
+* Fix for the search page
+   - integrated js and css files for the search page (needed for functionality and styling purposes)
+   - Added a toggle for the filters for mobile display of the search page (non existent in the current files, meaning the mobile display of the page was inusable)
+   - Added a functionality to search facet filter when the facets show a "display more"
+   - Fixed the JS calls for the new Clerk JS V2
+   - Added styling to make it look good by default
+   - Fixed the placement of the "no results div" to show in the correct place
+
 = 3.5.3 - 2021-03-19 =
 * Fixed Collect Basket issue for some edge cases.
 
