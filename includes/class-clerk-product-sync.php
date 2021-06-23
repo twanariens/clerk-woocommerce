@@ -81,9 +81,11 @@ class Clerk_Product_Sync {
 
         try {
             $options = get_option('clerk_options');
-            if (!$options['realtime_updates'] == 1) {
-                return;
-            }
+            /** Disabled for troubleshooting
+            * if (!$options['realtime_updates'] == 1) {
+            *    return;
+            *}
+            */
             //Remove product from Clerk
             $this->api->removeProduct($post_id);
 
@@ -103,11 +105,13 @@ class Clerk_Product_Sync {
 
         try {
             $options = get_option('clerk_options');
-            if (!$options['realtime_updates'] == 1) {
-                return;
-            }
+            /** Disabled for troubleshooting
+            *if (!$options['realtime_updates'] == 1) {
+            *    return;
+            *}
+            */
             
-            $params = clerk_get_product_data($product);
+            $params = $this->helper->clerk_get_product_data($product);
             $this->api->addProduct($params);
 
         } catch (Exception $e) {
