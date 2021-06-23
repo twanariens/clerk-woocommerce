@@ -113,6 +113,8 @@ class Clerk_Search
         try {
 
             $options = get_option('clerk_options');
+            wp_enqueue_style('clerk_search_css', plugins_url('../assets/css/search.css', __FILE__));
+            wp_enqueue_script('clerk_search_js', plugins_url('../assets/js/search.js', __FILE__), array('jquery'));
             ?>
             <span id="clerk-search"
                   class="clerk"
@@ -133,56 +135,38 @@ class Clerk_Search
                   ?>
                   data-query="<?php echo esc_attr(get_query_var('searchterm')); ?>">
 		    </span>
+            <div id="clerk-show-facets">Filter tonen/verbergen</div>
             <?php
-            if (count($Attributes) > 0) {
+                if (count($Attributes) > 0): ?>
+                    <div class="clerk-container">
+                        <div id="clerk-facets-container">
+                            <div class="clerk-facet-group">
+                                <div class="clerk-facet-group-title">Sorteer op: </div>
+                                <select ng-model="sort" class="clerk-result-sort ng-pristine ng-valid ng-touched">
+                                    <option value="relevance">Meest verkocht</option>
+                                    <option value="upage">Nieuw naar oud</option>
+                                    <option value="downage">Oud naar nieuw</option>
+                                    <option value="upname">Naam, A - Z</option>
+                                    <option value="downname">Naam, Z - A</option>
+                                    <option value="upprice">Prijs laag naar hoog</option>
+                                    <option value="downprice">Prijs van hoog naar laag</option>
+                                </select>
+                            </div>
+                            <div id="clerk-search-filters"></div>
+                        </div>
+                        <div id="clerk-search-container">
+                            <ul style="width: 100%;" id="clerk-search-results"></ul>
+                        </div>
+                    </div>
+                <?php endif; ?>
 
-                echo '<div style="display: flex;">';
-                echo  '<div style="width: 30%; margin-top: 75px;" id="clerk-search-filters"></div>';
-
-
-            }
-
-            ?>
-
-            <ul style="width: 100%;" id="clerk-search-results"></ul>
-
-            <?php
-
-            if (count($Attributes) > 0) {
-
-                echo ' </div>';
-
-            }
-
-            ?>
             <div id="clerk-search-no-results" style="display: none; margin-left: 3em;"><h2><?php echo $options['search_no_results_text'] ?></h2></div>
 
-            <script type="text/javascript">
-                var total_loaded = 0;
-
-                function _clerk_after_load_event(data) {
-
-                    total_loaded += data.response.result.length;
-
-                    var e = jQuery('#clerk-search');
-
-                    if (typeof e.data('limit') === "undefined") {
-                        e.data('limit', data.response.result.length)
-                    }
-
-                    if (total_loaded == 0) {
-                        jQuery('#clerk-search-no-results').show();
-                    } else {
-                        jQuery('#clerk-search-no-results').hide();
-                    }
-
-                }
-            </script>
             <?php
 
-        } catch (Exception $e) {
+                } catch (Exception $e) {
 
-            $this->logger->error('ERROR handle_shortcode', ['error' => $e->getMessage()]);
+                $this->logger->error('ERROR handle_shortcode', ['error' => $e->getMessage()]);
 
         }
 
