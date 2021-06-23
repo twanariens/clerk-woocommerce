@@ -168,7 +168,15 @@ class Clerk_Rest_Api extends WP_REST_Server
                 'order' => $order,
                 'status' => array('publish'),
                 'paginate' => true,
-                'offset' => $offset
+                'offset' => $offset,
+                'tax_query' => array(
+					array(
+						'taxonomy' => 'product_visibility',
+						'field'    => 'name',
+						'terms'    => 'exclude-from-search',
+						'operator' => 'NOT IN',
+					),
+				)
             ));
 
             $FinalProductsArray = [];
