@@ -112,7 +112,13 @@ class Clerk_Product_Sync {
             */
             
             $params = $this->helper->clerk_get_product_data($product);
-            $this->api->addProduct($params);
+            if ($params == false){
+                $this->logger->error('ERROR add_product', ['error' => $product . 'is not eligible for Product Sync']);
+            }
+            else{
+                $this->api->addProduct($params);
+                $this->logger->info('Succesfully synced '.$product->get_name().' via realtime updates', ['success' => $product . 'has been synced via Product Sync']);
+            }
 
         } catch (Exception $e) {
 

@@ -75,27 +75,6 @@ class Clerk_Helpers
             $list_price = $product->get_regular_price();
         }
 
-        if ($product->managing_stock() && !isset($options['outofstock_products']) && $product->get_stock_quantity() === 0) {
-
-            if (isset($stock_quantity) && $stock_quantity === 0) {
-
-                return false;
-
-            }elseif(!isset($stock_quantity)) {
-
-                return false;
-
-            }elseif(!$product->is_in_stock()) {
-
-                return false;
-
-            }
-        } elseif (! $product->managing_stock() && ! $product->is_in_stock() && !isset($options['outofstock_products'])) {
-
-            return false;
-
-        }
-
         $productArray = [
             'id' => $product->get_id(),
             'name' => $product->get_name(),
@@ -139,7 +118,7 @@ class Clerk_Helpers
 
             if ($field == '') {
 
-                return false;
+                continue;
 
             }
 
