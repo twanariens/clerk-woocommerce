@@ -8,6 +8,14 @@ jQuery(document).ready(function($){
 	Clerk('on','rendered',function(){
 		$(".clerk-facet-search").attr("placeholder","Zoeken");
 		$(".clerk-facet-show-more").text("Laad Meer");
+        function Ascending_sort(a, b) {
+            return ($(b).data('value')) <
+            ($(a).data('value')) ? 1 : -1;
+        }
+        $(".clerk-facet-group:not('.clerk-facet-price')").each(function(){
+            var facetBoxes = $(this).find(".clerk-facet");
+            $(facetBoxes).sort(Ascending_sort).appendTo($(this).find('.clerk-facet-group-facets'));
+        });
 	})
 					
     Clerk('on', 'rendered', function(content, data) {
@@ -71,3 +79,4 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     });
 });
+
