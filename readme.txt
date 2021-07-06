@@ -30,14 +30,21 @@ Once signed up, simply login to your my.clerk.io backend, which will guide you t
 
 == Changelog ==
 
+= Open Issues found by Twanariens =
+* The "realtime updates" checks are not working in the code. I had to remove the check to allow realtime updates to work
+* The sorting on the search page is defined in the Dutch language. This should be changed to a language file
+* Whenever a product sync runs, it will get send to the Clerk API but the data will only be processed on the upcoming product sync trigger. So in short: Plugin gets product sync trigger, Product data gets retrieved, Product data gets send via api "add product", Clerk receives the data, Clerk does not process the data. Clerk will process the data when a new product sync comes in.
+
+
 = Fixes by Twanariens = 
+* Fix for the rest api and Product sync. They were both using a function to get the data of the product. Standardised this by the creation of helpers. This means that both methods now use one function to retrieve product data.
 * Fix for retrieving the Product Short Description ($Excerpt)
 * Fix for using the Catalog Visibility of a product (this means Clerk will no longer show products that have there catalog visibility set to hide from search)
 * Fix for retrieving Product Attribute data 
    - The product data would be retrieved without any whitespaces, meaning some descriptions were unreadable
    - Changed the "exploded" functionality to cut the string in the right place (the product data is imploded with `, ` but exploded with `,`. So there were additional whitespaces in the product attribute)
    - The product data would always be retrieved as "exloded", meaning all product attributes were imported as an array (even with single values)
-   - 
+   - Added logging to the realtime updates (product sync). It will now show in the Clerk log when a product sync has been done.
 * Fix for certain WooCommerce calls (old functions are being called with errors in the debug log, changed them to the new function calls)
 * Fix for the search page
    - integrated js and css files for the search page (needed for functionality and styling purposes)
@@ -46,6 +53,7 @@ Once signed up, simply login to your my.clerk.io backend, which will guide you t
    - Fixed the JS calls for the new Clerk JS V2
    - Added styling to make it look good by default
    - Fixed the placement of the "no results div" to show in the correct place
+   - Added Javascript to sort the search filter attributes alphabetically (with exception of the price)
 
 = 3.5.3 - 2021-03-19 =
 * Fixed Collect Basket issue for some edge cases.
