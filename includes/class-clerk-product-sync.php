@@ -24,20 +24,20 @@ class Clerk_Product_Sync {
 	}
 
 	private function initHooks() {
-		add_action( 'save_post_product', [ $this, 'save_product' ], 10, 2 );
+		add_action( 'save_post', [ $this, 'save_product' ], 10, 3 );
 		add_action( 'before_delete_post', [ $this, 'remove_product' ] );
 	}
 
-	public function save_product( $post_id, $post ) {
+	public function save_product( $post_id, $post, $update) {
         $options = get_option('clerk_options');
 
         try {
-            /** Disabled for troubleshooting 
-            *if (!in_array('realtime_updates', $options)) {
-            *    return;
-            *}
-            */
-            if (!$post) {
+
+            if ($options['realtime_updates'] != 1) {
+                return;
+            }
+
+            if ($post->post_status != 'publish' || $post->post_type != 'product') {
                 return;
             }
 
